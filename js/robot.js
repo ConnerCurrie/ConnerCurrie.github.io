@@ -1,29 +1,3 @@
-var Leaf = function() {
-    THREE.Group.apply(this, arguments);
-
-    var leaf = new THREE.Mesh(
-        new THREE.TorusGeometry(.8,1.6,3,4),
-        new THREE.MeshStandardMaterial( {
-            color: 0x0b8450,
-            shading: THREE.FlatShading ,
-            metalness: 0,
-            roughness: 0.8,
-            refractionRatio: 0.25
-        } )
-    );
-    //leaf.geometry.vertices[4].y -=1;
-    leaf.rotateX(Math.random()*Math.PI*2);
-    leaf.rotateZ(Math.random()*Math.PI*2);
-    leaf.rotateY(Math.random()*Math.PI*2);
-    leaf.receiveShadow = true;
-    leaf.castShadow = true;
-
-    this.add(leaf);
-
-}
-Leaf.prototype = Object.create(THREE.Group.prototype);
-Leaf.prototype.constructor = Leaf;
-
 var ChristmasTree = function() {
 
     THREE.Group.apply(this, arguments);
@@ -67,6 +41,7 @@ var ChristmasTree = function() {
             refractionRatio: 0.25
         } )
     );
+    
     trunk.position.y += 45;
     trunk.castShadow = true;
     trunk.receiveShadow = true;
@@ -153,6 +128,7 @@ var ChristmasTree = function() {
     }
 
 }
+
 ChristmasTree.prototype = Object.create(THREE.Group.prototype);
 ChristmasTree.prototype.constructor = ChristmasTree;
 ChristmasTree.prototype.updatePosition = function() {
@@ -160,156 +136,6 @@ ChristmasTree.prototype.updatePosition = function() {
         this.decorations[d].updatePosition();
     }
 };
-
-var Star = function() {
-
-    THREE.Group.apply(this, arguments);
-
-    var starShape = new THREE.Shape([
-        new THREE.Vector2(0, 50),
-        new THREE.Vector2(10, 10),
-        new THREE.Vector2(40, 10),
-        new THREE.Vector2(20, -10),
-        new THREE.Vector2(30, -50),
-        new THREE.Vector2(0, -20),
-        new THREE.Vector2(-30, -50),
-        new THREE.Vector2(-20, -10),
-        new THREE.Vector2(-40, 10),
-        new THREE.Vector2(-10, 10)
-    ]);
-
-    var geometry = new THREE.ExtrudeGeometry(starShape, {
-        steps: 1,
-        amount: 4,
-        curveSegments: 1,
-        bevelEnabled: true,
-        bevelThickness: 10,
-        bevelSize: 10,
-        bevelSegments: 1
-    });
-    addNoise(geometry, 0, 0, 2);
-
-    var star = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({
-        color: 0xffd423,
-        shading: THREE.FlatShading,
-        metalness: 0,
-        roughness: 0.8,
-        refractionRatio: 0.25,
-        emissive: 0xffd423,
-        emissiveIntensity: 0.4
-    }));
-    star.scale.set(.3, .3, .3);
-    this.add(star);
-
-    var pointLight = new THREE.DirectionalLight( 0xffd423,.4);
-    pointLight.position.set( 0, 10, 0);
-
-    this.add( pointLight );
-}
-Star.prototype = Object.create(THREE.Group.prototype);
-Star.prototype.constructor = Star;
-Star.prototype.updatePosition = function() {
-    this.rotateY(0.005);
-};
-
-var Decoration = function() {
-
-    // Run the Group constructor with the given arguments
-    THREE.Group.apply(this, arguments);
-
-    this.rotationSpeed = Math.random() * 0.01 + 0.003;
-    this.rotationPosition = Math.random();
-
-    // A random color assignment
-    var colors = ['#ff0051', '#f56762','#a53c6c','#f19fa0','#72bdbf','#47689b'];
-
-    var bauble = new THREE.Mesh(
-        addNoise(new THREE.OctahedronGeometry(12,1), 2),
-        new THREE.MeshStandardMaterial( {
-            color: colors[Math.floor(Math.random()*colors.length)],
-            shading: THREE.FlatShading ,
-            metalness: 0,
-            roughness: 0.8,
-            refractionRatio: 0.25
-        })
-    );
-    bauble.castShadow = true;
-    bauble.receiveShadow = true;
-    bauble.rotateZ(Math.random()*Math.PI*2);
-    bauble.rotateY(Math.random()*Math.PI*2);
-
-    this.add(bauble);
-
-    var shapeOne = new THREE.Mesh(
-        addNoise(new THREE.CylinderGeometry(4, 6, 10, 6, 1), 0.5),
-        new THREE.MeshStandardMaterial( {
-            color: 0xf8db08,
-            shading: THREE.FlatShading ,
-            metalness: 0,
-            roughness: 0.8,
-            refractionRatio: 0.25
-        } )
-    );
-    shapeOne.position.y += 8;
-    shapeOne.castShadow = true;
-    shapeOne.receiveShadow = true;
-    this.add(shapeOne);
-
-
-    var shapeTwo = new THREE.Mesh(
-        addNoise(new THREE.TorusGeometry( 2,1, 6, 4, Math.PI), 0.2),
-        new THREE.MeshStandardMaterial( {
-            color: 0xf8db08,
-            shading: THREE.FlatShading ,
-            metalness: 0,
-            roughness: 0.8,
-            refractionRatio: 0.25
-
-        } )
-    );
-    shapeTwo.position.y += 12.5;
-    shapeTwo.castShadow = true;
-    shapeTwo.receiveShadow = true;
-    this.add(shapeTwo);
-
-    var scale = Math.random() * 0.2 + 0.4;
-    this.scale.set(scale,scale,scale);
-};
-Decoration.prototype = Object.create(THREE.Group.prototype);
-Decoration.prototype.constructor = Decoration;
-Decoration.prototype.updatePosition = function() {
-    this.rotationPosition += this.rotationSpeed;
-    this.rotation.y = (Math.sin(this.rotationPosition));
-};
-
-
-var Leaf = function() {
-    THREE.Group.apply(this, arguments);
-
-    var leaf = new THREE.Mesh(
-        new THREE.TorusGeometry(.8,1.6,3,4),
-        new THREE.MeshStandardMaterial( {
-            color: 0x0b8450,
-            shading: THREE.FlatShading ,
-            metalness: 0,
-            roughness: 0.8,
-            refractionRatio: 0.25
-        } )
-    );
-    //leaf.geometry.vertices[4].y -=1;
-    leaf.rotateX(Math.random()*Math.PI*2);
-    leaf.rotateZ(Math.random()*Math.PI*2);
-    leaf.rotateY(Math.random()*Math.PI*2);
-    leaf.receiveShadow = true;
-    leaf.castShadow = true;
-
-    this.add(leaf);
-
-}
-Leaf.prototype = Object.create(THREE.Group.prototype);
-Leaf.prototype.constructor = Leaf;
-
-
 
 var Present = function() {
 
@@ -386,6 +212,7 @@ var Present = function() {
     this.scale.set(2,2,2);
 
 }
+
 Present.prototype = Object.create(THREE.Group.prototype);
 Present.prototype.constructor = Present;
 
