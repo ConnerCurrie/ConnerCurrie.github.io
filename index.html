@@ -41,17 +41,64 @@
 				padding: 5px;
 				z-index:100;
 			}
+			.wrapper {
+				text-align: center;
+			}
+
+			.btn {
+				border: none;
+				width: 200px;
+				position: absolute;
+				top: 40%;
+				left: 50%;
+				background: #151515;
+				color: white;
+				font-size: 20px;
+				padding: 5px 5px 5px 5px;
+				margin: -10px 0 0 -100px;
+				text-decoration: none;
+				-o-transition:color .2s ease-out, background 0.2s ease-in;
+				-ms-transition:color .2s ease-out, background 0.2s ease-in;
+				-moz-transition:color .2s ease-out, background 0.2s ease-in;
+				-webkit-transition:color .2s ease-out, background 0.2s ease-in;
+				/* ...and now override with proper CSS property */
+				transition:color .2s ease-out, background 1s ease-in;
+			}
+
+			.btn:hover {
+				text-decoration: none;
+				cursor: pointer;
+				background-color: white;
+				color: #000000;
+			}
+
+			.btn:focus {outline:0;}
+
+			.btn{
+				-webkit-animation: pulsing 2s ease-in-out infinite alternate;
+				-moz-animation: pulsing 2s ease-in-out infinite alternate;
+				-o-animation: pulsing 2s ease-in-out infinite alternate;
+				animation: pulsing 2s ease-in-out infinite alternate;
+			}
 		</style>
 	</head>
 
 	<body>
-		<div id="info"><a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - custom attributes example</div>
+		<div class="wrapper">
+				<button onclick="pageTransition(1)" type="button" class="btn">ENTER</button>
+		</div>
+
 		<div id="container"></div>
 
 		<script src="js/three.js"></script>
-
 		<script src="js/Detector.js"></script>
 		<script src="js/stats.min.js"></script>
+
+		<script>
+			$("#preloader").animate({"opacity" : "1"}, 500, "linear", function(){
+				window.location = "profile/index.html";
+			});
+		</script>
 
 		<script type="x-shader/x-vertex" id="vertexshader">
 			uniform float amplitude;
@@ -87,54 +134,71 @@
 		var renderer, scene, camera, stats;
 		var sphere, uniforms;
 		var displacement, noise;
+
 		init();
 		animate();
+
 		function init() {
 			camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
+
 			camera.position.z = 300;
 			scene = new THREE.Scene();
+
 			scene.background = new THREE.Color( 0x050505 );
+
 			uniforms = {
 				amplitude: { value: 1.0 },
 				color:     { value: new THREE.Color( 0xff2200 ) },
 				texture:   { value: new THREE.TextureLoader().load( "textures/water.jpg" ) }
 			};
+
 			uniforms.texture.value.wrapS = uniforms.texture.value.wrapT = THREE.RepeatWrapping;
+
 			var shaderMaterial = new THREE.ShaderMaterial( {
 				uniforms: uniforms,
 				vertexShader:document.getElementById( 'vertexshader' ).textContent,
 				fragmentShader: document.getElementById( 'fragmentshader' ).textContent
 			});
+
 			var radius = 50, segments = 128, rings = 64;
 			var geometry = new THREE.SphereBufferGeometry( radius, segments, rings );
+
 			displacement = new Float32Array( geometry.attributes.position.count );
 			noise = new Float32Array( geometry.attributes.position.count );
+
 			for ( var i = 0; i < displacement.length; i ++ ) {
 				noise[ i ] = Math.random() * 5;
 			}
+
 			geometry.addAttribute( 'displacement', new THREE.BufferAttribute( displacement, 1 ) );
 			sphere = new THREE.Mesh( geometry, shaderMaterial );
 			scene.add( sphere );
 			renderer = new THREE.WebGLRenderer();
 			renderer.setPixelRatio( window.devicePixelRatio );
 			renderer.setSize( window.innerWidth, window.innerHeight );
+
 			var container = document.getElementById( 'container' );
+
 			container.appendChild( renderer.domElement );
-			stats = new Stats();
-			container.appendChild( stats.dom );
-			//
+
+			//stats = new Stats();
+			//container.appendChild( stats.dom );
+
 			window.addEventListener( 'resize', onWindowResize, false );
 		}
+
 		function onWindowResize() {
 			camera.aspect = window.innerWidth / window.innerHeight;
 			camera.updateProjectionMatrix();
 			renderer.setSize( window.innerWidth, window.innerHeight );
 		}
+
 		function animate() {
 			requestAnimationFrame( animate );
 			render();
 			stats.update();
 		}
+
 		function render() {
 			var time = Date.now() * 0.01;
 			sphere.rotation.y = sphere.rotation.z = 0.01 * time;
