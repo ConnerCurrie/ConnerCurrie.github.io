@@ -3,64 +3,55 @@ var ChristmasTree = function() {
     THREE.Group.apply(this, arguments);
 
 
-    // A material for the pot
-    var potMaterial = new THREE.MeshStandardMaterial( {
-        color: 0xf97514,
+    // A material for the arm
+    var armMaterial = new THREE.MeshStandardMaterial( {
+        color: 	0xffffff,
         shading: THREE.FlatShading,
-        metalness: 0,
-        roughness: 0.8,
+        metalness: 0.1,
+        roughness: 0.5,
         refractionRatio: 0.25
     } );
 
-    // The pot
-    var pot = new THREE.Mesh(
-        addNoise(new THREE.CylinderGeometry(30, 25, 35, 8, 2), 2),
-        potMaterial
-    );
-    pot.position.y += 17.5;
-    pot.castShadow = true;
-    pot.receiveShadow = true;
-    this.add(pot);
-    var potRim = new THREE.Mesh(
-        addNoise(new THREE.CylinderGeometry(38, 35, 10, 8, 1), 2),
-        potMaterial
-    );
-    potRim.position.y += 35;
-    potRim.castShadow = true;
-    potRim.receiveShadow = true;
-    this.add(potRim);
+    // A material for the arm
+    var armMaterial2 = new THREE.MeshStandardMaterial( {
+        color: 	0xff0000,
+        shading: THREE.FlatShading,
+        metalness: 0.2,
+        roughness: 0.5,
+        refractionRatio: 0.25
+    } );
 
-    // A tree trunk
-    var trunk = new THREE.Mesh(
-        addNoise(new THREE.CylinderGeometry(12, 18, 30, 8, 3),2),
-        new THREE.MeshStandardMaterial( {
-            color: 0x713918,
-            shading: THREE.FlatShading ,
-            metalness: 0,
-            roughness: 0.8,
-            refractionRatio: 0.25
-        } )
-    );
-    
-    trunk.position.y += 45;
-    trunk.castShadow = true;
-    trunk.receiveShadow = true;
-    this.add(trunk);
+    //Arm_Base
+    var Arm_Base = new THREE.Mesh( new THREE.CylinderGeometry(40, 40, 25, 14, 0.75), armMaterial );
+    Arm_Base.position.y += 17.5;
+    Arm_Base.castShadow = true;
+    Arm_Base.receiveShadow = true;
 
-    // A shape, 
-    var logo = new THREE.Shape();
-    logo.moveTo(3.43, 96.86);
-    logo.bezierCurveTo(2.01, 96.86, 1.38, 95.87, 2.04, 94.63);
-    logo.lineTo (9.07, 83.43);
-    logo.bezierCurveTo(9.72, 82.2, 11.42, 81.2, 12.84, 81.2);
-    logo.lineTo (67.94, 81.2);
-    logo.bezierCurveTo(69.37, 81.2 , 70, 80.2, 69.34, 78.97);
-    logo.lineTo (41.58, 24.87);
-    logo.bezierCurveTo(40.92, 23.64, 40.92, 21.65, 41.58, 20.41);
-    logo.lineTo (49.44, 5.66);
-    logo.bezierCurveTo(49.44+0.65, 5.66-1.23, 49.44+1.72, 5.66-1.23, 51.82, 5.66);
-    logo.lineTo (99.22,94.63);
-    logo.bezierCurveTo(99.22+0.65, 94.63+1.23, 99.22+0.02, 94.63+2.23, 97.82, 96.86);
+    //Arm_Base_2
+    var Arm_Base_2 = new THREE.Mesh(new THREE.BoxGeometry( 40, 50, 10), armMaterial );
+    Arm_Base_2.position.y += 42.5;
+    Arm_Base_2.position.z += 15;
+    Arm_Base_2.castShadow = true;
+    Arm_Base_2.receiveShadow = false;
+
+    //Arm_Base_3
+    var Arm_Base_3 = new THREE.Mesh(new THREE.BoxGeometry( 40, 50, 10), armMaterial );
+    Arm_Base_3.position.y += 42.5;
+    Arm_Base_3.position.z -= 15;
+    Arm_Base_3.castShadow = true;
+    Arm_Base_3.receiveShadow = false;
+
+    //Arm_Base_4
+    var Arm_Base_4 = new THREE.Mesh( new THREE.CylinderGeometry(12, 12, 50, 14, 0.75), armMaterial2 );
+    Arm_Base_4.position.y += 50;
+    Arm_Base_4.rotation.x = Math.PI / 2;
+    Arm_Base_4.castShadow = true;
+    Arm_Base_4.receiveShadow = true;
+
+    this.add(Arm_Base);
+    this.add(Arm_Base_2);
+    this.add(Arm_Base_3);
+    this.add(Arm_Base_4);
 
     var extrudeSettings = {
         steps: 1,
@@ -74,26 +65,6 @@ var ChristmasTree = function() {
 
     var treeGroup = new THREE.Group();
 
-    var logoGeometry = new THREE.ExtrudeGeometry( logo, extrudeSettings );
-    addNoise(logoGeometry, 2,2,0.5)
-    var mesh = new THREE.Mesh( logoGeometry, new THREE.MeshStandardMaterial( {
-            color: 0x15a46b,
-            shading: THREE.FlatShading ,
-            metalness: 0,
-            roughness: 0.8,
-            refractionRatio: 0.25
-        } ) ) ;
-
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    treeGroup.add( mesh );
-
-    for(var x = 0; x < logoGeometry.vertices.length; x++) {
-        var leaf = new Leaf();
-        leaf.position.copy(logoGeometry.vertices[x]);
-        treeGroup.add(leaf);
-    }
-
     treeGroup.position.y += 180;
     treeGroup.position.x -= 60;
     treeGroup.position.z += 10;
@@ -103,39 +74,64 @@ var ChristmasTree = function() {
 
     this.add(treeGroup);
 
-    var decorationPositions = [
-        [-35, 55, 17, -0.1, 0],
-        [35, 59, 17, -0.1, 0],
-        [-5, 74, 17, -0.2, 0.2],
-        [18, 123, 18, -0.2, 0.3],
-        [43, 100, 15, -0.2, 0.3],
-        [-12, 133, 1, 0, 0],
-
-        [-35, 65, -17, 0.1, -0],
-        [25, 67, -17, 0.1, -0],
-        [-5, 74, -17, 0.2, -0.2],
-        [10, 143, -18, 0.2, 0.3],
-        [50, 85, -15, 0.2, 0.3],
-    ];
-    this.decorations = [];
-    for (var d = 0; d < decorationPositions.length; d++) {
-        var decoration = new Decoration();
-        decoration.position.set(decorationPositions[d][0], decorationPositions[d][1], decorationPositions[d][2]);
-        decoration.rotateX(decorationPositions[d][3]);
-        decoration.rotateZ(decorationPositions[d][4]);
-        this.add(decoration);
-        this.decorations.push(decoration);
-    }
-
 }
-
 ChristmasTree.prototype = Object.create(THREE.Group.prototype);
 ChristmasTree.prototype.constructor = ChristmasTree;
 ChristmasTree.prototype.updatePosition = function() {
-    for(var d = 0; d < this.decorations.length; d++) {
-        this.decorations[d].updatePosition();
-    }
 };
+
+var Star = function() {
+
+    THREE.Group.apply(this, arguments);
+
+    var starShape = new THREE.Shape([
+        new THREE.Vector2(0, 50),
+        new THREE.Vector2(10, 10),
+        new THREE.Vector2(40, 10),
+        new THREE.Vector2(20, -10),
+        new THREE.Vector2(30, -50),
+        new THREE.Vector2(0, -20),
+        new THREE.Vector2(-30, -50),
+        new THREE.Vector2(-20, -10),
+        new THREE.Vector2(-40, 10),
+        new THREE.Vector2(-10, 10)
+    ]);
+
+    var geometry = new THREE.ExtrudeGeometry(starShape, {
+        steps: 1,
+        amount: 4,
+        curveSegments: 1,
+        bevelEnabled: true,
+        bevelThickness: 10,
+        bevelSize: 10,
+        bevelSegments: 1
+    });
+    addNoise(geometry, 0, 0, 2);
+
+    var star = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({
+        color: 0xffd423,
+        shading: THREE.FlatShading,
+        metalness: 0,
+        roughness: 0.8,
+        refractionRatio: 0.25,
+        emissive: 0xffd423,
+        emissiveIntensity: 0.4
+    }));
+    star.scale.set(.3, .3, .3);
+    this.add(star);
+
+    var pointLight = new THREE.DirectionalLight( 0xffd423,.4);
+    pointLight.position.set( 0, 10, 0);
+
+    this.add( pointLight );
+}
+Star.prototype = Object.create(THREE.Group.prototype);
+Star.prototype.constructor = Star;
+Star.prototype.updatePosition = function() {
+    this.rotateY(0.005);
+};
+
+
 
 var Present = function() {
 
@@ -275,15 +271,10 @@ scene.add( groundMesh );
 var tree = new ChristmasTree();
 scene.add(tree);
 
-// A star on top
-var star = new Star();
-star.position.y += 200;
-scene.add(star);
-
 // Loop around the tree, adding presents every 20 to 40 degrees.
 for(var angle = 0; angle < 360; angle += Math.random()*20+20) {
     var p = new Present();
-    var radius = Math.random() * 40 + 50;
+    var radius = Math.random() * 40 + 80;
     p.position.x =  Math.cos(angle * Math.PI / 180) * radius;
     p.position.z =  Math.sin(angle * Math.PI / 180) * radius;
     p.scale.set(Math.random() + 1, Math.random() + 1,Math.random() + 1);
@@ -306,7 +297,6 @@ function render() {
 
     // Update animated elements
     tree.updatePosition();
-    star.updatePosition();
 
     // Render the scene/camera combnation
     renderer.render(scene, camera);
@@ -324,6 +314,7 @@ function render() {
  * @param noiseZ Amount of noise on the Z axis
  * @returns the geometry object
  */
+
 function addNoise(geometry, noiseX, noiseY, noiseZ) {
 
     var noiseX = noiseX || 2;
