@@ -1,8 +1,8 @@
 var loader = new THREE.FontLoader();
 
-loader.load( '../fonts/helvetiker_regular.typeface.json', function ( font ) {
+var text_geometry = loader.load( '../fonts/helvetiker_regular.typeface.json', function ( font ) {
 
-	var text_geometry = new THREE.Mesh( new THREE.TextGeometry( 'Conner Currie!', {
+	var geometry = new THREE.TextGeometry( 'Conner Currie!', {
 		font: font,
 		size: 80,
 		height: 5,
@@ -11,8 +11,7 @@ loader.load( '../fonts/helvetiker_regular.typeface.json', function ( font ) {
 		bevelThickness: 10,
 		bevelSize: 8,
 		bevelSegments: 5
-	} )
-	);
+	} );
 } );
 
 // Create a scene which will hold all our meshes to be rendered
@@ -53,7 +52,7 @@ var ambientLight = new THREE.AmbientLight( 0xffffff, 0.3 );
 scene.add( ambientLight );
 
 //Add some text
-scene.add( text_geometry );
+scene.add( new Three.Mesh(text_geometry) );
 
 // Add a point light that will cast shadows
 var pointLight = new THREE.PointLight( 0xffffff,.8 );
