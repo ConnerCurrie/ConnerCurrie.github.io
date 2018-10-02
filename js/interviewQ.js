@@ -75,7 +75,11 @@ controls.maxPolarAngle = Math.PI / 2;
 controls.minDistance = 100;
 controls.maxDistance = 220;
 
-//SETTINGS
+//Text Settings
+
+//GEOMETRY
+var cubeMat = new THREE.MeshLambertMaterial({color: 0xff3300})
+
 var text = "aems",
 height = 2,
 size = 10,
