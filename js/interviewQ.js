@@ -2,7 +2,7 @@ var loader = new THREE.FontLoader();
 
 loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
 
-	var geometry = new THREE.TextGeometry( 'Conner Currie!', {
+	var text_geometry = new THREE.TextGeometry( 'Conner Currie!', {
 		font: font,
 		size: 80,
 		height: 5,
@@ -50,6 +50,9 @@ document.body.appendChild( renderer.domElement );
 // Add an ambient lights
 var ambientLight = new THREE.AmbientLight( 0xffffff, 0.3 );
 scene.add( ambientLight );
+
+//Add some text
+scene.add( text_geometry );
 
 // Add a point light that will cast shadows
 var pointLight = new THREE.PointLight( 0xffffff,.8 );
