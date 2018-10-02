@@ -35,9 +35,6 @@ document.body.appendChild( renderer.domElement );
 var ambientLight = new THREE.AmbientLight( 0xffffff, 0.3 );
 scene.add( ambientLight );
 
-//Add some text
-scene.add( new Three.Mesh(text_geometry) );
-
 // Add a point light that will cast shadows
 var pointLight = new THREE.PointLight( 0xffffff,.8 );
 pointLight.position.set( 80, 160, 120 );
