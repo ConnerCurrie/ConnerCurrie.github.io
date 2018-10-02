@@ -100,7 +100,7 @@ function loadFont() {
 }
 
 function createText() {
-	textGeo = new THREE.TextGeometry( 'Conner Currie', {
+	textGeo = new THREE.TextGeometry( 'Answer to the Interview Question', {
 	font: font,
 	size: size,
 	height: height,
@@ -116,6 +116,7 @@ function createText() {
 	textGeo.computeVertexNormals();
 	var text = new THREE.Mesh(textGeo, cubeMat)
 	text.position.x = -textGeo.boundingBox.max.x/2;
+	text.position.y += 40;
 	text.castShadow = true;
 	scene.add(text)
 }
