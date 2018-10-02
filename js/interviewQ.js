@@ -53,6 +53,7 @@ var groundMesh = new THREE.Mesh(
     new THREE.BoxGeometry( 1000, .1, 1000 ),
     shadowMaterial
 );
+
 groundMesh.receiveShadow = true;
 scene.add( groundMesh );
 
