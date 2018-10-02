@@ -1,19 +1,3 @@
-var loader = new THREE.FontLoader();
-
-var text_geometry = loader.load( '../fonts/helvetiker_regular.typeface.json', function ( font ) {
-
-	var geometry = new THREE.TextGeometry( 'Conner Currie!', {
-		font: font,
-		size: 80,
-		height: 5,
-		curveSegments: 12,
-		bevelEnabled: true,
-		bevelThickness: 10,
-		bevelSize: 8,
-		bevelSegments: 5
-	} );
-} );
-
 // Create a scene which will hold all our meshes to be rendered
 var scene = new THREE.Scene();
 
@@ -26,7 +10,7 @@ var camera = new THREE.PerspectiveCamera(
 );
 
 // Reposition the camera
-camera.position.set(-60,80,210);
+camera.position.set(40,40,40);
 
 // Point the camera at a given coordinate
 camera.lookAt(new THREE.Vector3(0,80,0))
@@ -72,3 +56,64 @@ var groundMesh = new THREE.Mesh(
 groundMesh.receiveShadow = true;
 scene.add( groundMesh );
 
+loadFont();
+
+requestAnimationFrame(render);
+
+function render() {
+    controls.update();
+
+    // Render the scene/camera combnation
+    renderer.render(scene, camera);
+
+    // Repeat...
+    requestAnimationFrame(render);
+}
+
+// Add an orbit control which allows us to move around the scene. See the three.js example for more details
+var controls = new THREE.OrbitControls( camera, renderer.domElement );
+controls.target = new THREE.Vector3(0,80,0);
+controls.maxPolarAngle = Math.PI / 2;
+controls.minDistance = 100;
+controls.maxDistance = 220;
+
+//SETTINGS
+var text = "aems",
+height = 2,
+size = 10,
+curveSegments = 10,
+bevelThickness = 1,
+bevelSize = 0.3,
+bevelSegments = 3,
+bevelEnabled = true,
+font = undefined
+var rotation = 0
+
+function loadFont() {
+	var loader = new THREE.FontLoader();
+	loader.load('../fonts/helvetiker_regular.typeface.json', function (res) {
+	font = res;
+	createText();
+	});
+}
+
+function createText() {
+	textGeo = new THREE.TextGeometry( 'Conner Currie', {
+	font: font,
+	size: size,
+	height: height,
+	curveSegments:curveSegments,
+	weight: "normal",
+	bevelThickness:bevelThickness,
+	bevelSize:bevelSize,
+	bevelSegments:bevelSegments,
+	bevelEnabled:bevelEnabled
+	});
+
+	textGeo.computeBoundingBox();
+	textGeo.computeVertexNormals();
+	var text = new THREE.Mesh(textGeo, cubeMat)
+	text.position.x = -textGeo.boundingBox.max.x/2;
+	text.castShadow = true;
+	scene.add(text)
+}
