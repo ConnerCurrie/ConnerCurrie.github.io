@@ -1,6 +1,6 @@
 var loader = new THREE.FontLoader();
 
-loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
+loader.load( '../fonts/helvetiker_regular.typeface.json', function ( font ) {
 
 	var text_geometry = new THREE.TextGeometry( 'Conner Currie!', {
 		font: font,
