@@ -61,7 +61,7 @@ requestAnimationFrame(render);
 function render() {
     controls.update();
 
-    // Render the scene/camera combnation
+    // Render the scene/camera combination
     renderer.render(scene, camera);
 
     // Repeat...
@@ -100,7 +100,7 @@ function loadFont() {
 }
 
 function createText() {
-	textGeo = new THREE.TextGeometry( 'Answer to the Interview Question', {
+	textGeo = new THREE.TextGeometry( document.getElementById("myInterviewInput").value, {
 	font: font,
 	size: size,
 	height: height,
@@ -119,4 +119,16 @@ function createText() {
 	text.position.y += 40;
 	text.castShadow = true;
 	scene.add(text)
+}
+
+function isSpecialNum(input){
+	if (typeof(input) == 'number'){
+
+	}
+	else if (typeof(input) == 'string'){
+
+	}
+	else{
+		
+	}
 }
