@@ -2,7 +2,7 @@ var loader = new THREE.FontLoader();
 
 loader.load( '../fonts/helvetiker_regular.typeface.json', function ( font ) {
 
-	var text_geometry = new THREE.TextGeometry( 'Conner Currie!', {
+	var text_geometry = new THREE.Mesh( new THREE.TextGeometry( 'Conner Currie!', {
 		font: font,
 		size: 80,
 		height: 5,
@@ -11,7 +11,8 @@ loader.load( '../fonts/helvetiker_regular.typeface.json', function ( font ) {
 		bevelThickness: 10,
 		bevelSize: 8,
 		bevelSegments: 5
-	} );
+	} )
+	);
 } );
 
 // Create a scene which will hold all our meshes to be rendered
@@ -61,4 +62,14 @@ pointLight.castShadow = true;
 pointLight.shadow.mapSize.width = 1024;
 pointLight.shadow.mapSize.height = 1024;
 scene.add( pointLight );
+
+// A basic material that shows the geometry wireframe.
+var shadowMaterial = new THREE.ShadowMaterial( { color: 0xffffff } );
+shadowMaterial.opacity = 0.5;
+var groundMesh = new THREE.Mesh(
+    new THREE.BoxGeometry( 1000, .1, 1000 ),
+    shadowMaterial
+);
+groundMesh.receiveShadow = true;
+scene.add( groundMesh );
 
