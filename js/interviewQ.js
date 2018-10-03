@@ -132,3 +132,5 @@ function isSpecialNum(input){
 		
 	}
 }
+//Event listeners
+document.getElementsById("Thing")[0].addEventListener('input', loadFont);
