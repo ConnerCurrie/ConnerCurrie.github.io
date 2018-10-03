@@ -10,7 +10,7 @@ var camera = new THREE.PerspectiveCamera(
 );
 
 // Reposition the camera
-camera.position.set(40,40,40);
+camera.position.set(10,40,40);
 
 // Point the camera at a given coordinate
 camera.lookAt(new THREE.Vector3(0,80,0))
@@ -121,16 +121,5 @@ function createText() {
 	scene.add(text)
 }
 
-function isSpecialNum(input){
-	if (typeof(input) == 'number'){
-
-	}
-	else if (typeof(input) == 'string'){
-
-	}
-	else{
-		
-	}
-}
 //Event listeners
 document.getElementsById("Thing")[0].addEventListener('input', loadFont);
