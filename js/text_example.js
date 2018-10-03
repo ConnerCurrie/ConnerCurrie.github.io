@@ -161,11 +161,6 @@ function init() {
     renderer.setSize( window.innerWidth, window.innerHeight );
     container.appendChild( renderer.domElement );
 
-    // STATS
-
-    stats = new Stats();
-    //container.appendChild( stats.dom );
-
     // EVENTS
 
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
@@ -489,7 +484,6 @@ function animate() {
     requestAnimationFrame( animate );
 
     render();
-    stats.update();
 
 }
 
