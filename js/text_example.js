@@ -31,10 +31,9 @@ var mirror = true;
 var fontMap = {
 
     "helvetiker": 0,
-    "optimer": 1,
-    "gentilis": 2,
-    "droid/droid_sans": 3,
-    "droid/droid_serif": 4
+    "gentilis": 1,
+    "droid/droid_sans": 2,
+    "droid/droid_serif": 3
 
 };
 
@@ -168,50 +167,6 @@ function init() {
     document.addEventListener( 'touchmove', onDocumentTouchMove, false );
     document.addEventListener( 'keypress', onDocumentKeyPress, false );
     document.addEventListener( 'keydown', onDocumentKeyDown, false );
-
-    document.getElementById( "color" ).addEventListener( 'click', function() {
-
-        pointLight.color.setHSL( Math.random(), 1, 0.5 );
-        hex = decimalToHex( pointLight.color.getHex() );
-
-        updatePermalink();
-
-    }, false );
-
-    document.getElementById( "font" ).addEventListener( 'click', function() {
-
-        fontIndex ++;
-
-        fontName = reverseFontMap[ fontIndex % reverseFontMap.length ];
-
-        loadFont();
-
-    }, false );
-
-
-    document.getElementById( "weight" ).addEventListener( 'click', function() {
-
-        if ( fontWeight === "bold" ) {
-
-            fontWeight = "regular";
-
-        } else {
-
-            fontWeight = "bold";
-
-        }
-
-        loadFont();
-
-    }, false );
-
-    document.getElementById( "bevel" ).addEventListener( 'click', function() {
-
-        bevelEnabled = !bevelEnabled;
-
-        refreshText();
-
-    }, false );
 
     //
 
